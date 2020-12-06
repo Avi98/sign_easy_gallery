@@ -7,8 +7,6 @@ const NavSec = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 40px;
-
     .filter-field{
         >input{
             margin: 20px 0;
