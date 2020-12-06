@@ -2,4 +2,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  --blue:#1976d2;
+  --nav-shadow:  0px 3px 8px 0px rgba(52, 50, 50, 0.41);
 }
