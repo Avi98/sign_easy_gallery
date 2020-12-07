@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getPhotos } from '../api/getPhotos';
 import { searchPhotos } from '../api/searchPhotos';
-import { InputElement, LikeDislikeButtons } from '../components';
+import { Images, InputElement, LikeDislikeButtons } from '../components';
 import { useAsync } from '../useFetch';
 
 
@@ -83,36 +83,19 @@ export const Gallery = () => {
 
   return (
     <Section>
-      {/* <h3>Gallery</h3> */}
       <InputElement placeholder="Search Images" />
       <div className="gallery">
         {statusPhotos === "success" &&
-          photos.map((images, i) => (
-            <>
-              <figure
-                className={`gallery__item gallery__item--${i * i}`}
-                key={images.id}
-              >
-                <img
-                  className="gallery__img"
-                  key={images.id}
-                  src={images.urls.thumb}
-                  alt={images.user.name}
-                />
-                <LikeDislikeButtons
-                  liked={like.find(likeObj=> likeObj.id === images.id) ? true : false}
-                  disliked={disLike.find(disLikeObj=> disLikeObj.id === images.id) ? true : false}
-                  onClickDislike={()=>onClickDislike({
-                    id: images.id,
-                    name: images.user.name,
-                  })}
-                  onClickLike={()=>onClickLike({
-                    id: images.id,
-                    name: images.user.name,
-                  })}
-                />
-              </figure>
-            </>
+          photos.map((images, index) => (
+            <Images
+              key={images.id}
+              images={images}
+              index={index}
+              like={like}
+              disLike={disLike}
+              onClickLike={onClickLike}
+              onClickDislike={onClickDislike}
+            />
           ))}
       </div>
     </Section>
