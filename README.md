@@ -9,7 +9,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [x] hook api to fetch photos
 - [x] Create Photo grid
 - [x] Add like button
-- [ ]  Add zoom functionality
+- [x]  Add zoom functionality
 - [ ]  Add search functionality
 - [ ]  Implement infinite scroll
 ## Table of Contents

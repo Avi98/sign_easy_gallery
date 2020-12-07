@@ -22,6 +22,13 @@ const Section = styled.section`
       cursor: pointer;
       grid-column: span 4;
       grid-row: span 4;
+      #zoom-in{
+        font-size: 25px;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background-color: #fff;
+      }
       > img {
         width: 100%;
         height: 100%;
