@@ -5,9 +5,9 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ### TODO
 
-[] (Create layout first)
-[] (hook api to fetch photos)
-[] (Create Photo grid )
+[X] (Create layout first)
+[X] (hook api to fetch photos)
+[X] (Create Photo grid )
 [] (Add zoom functionality )
 [] (Add like button )
 [] (Implement infinite scroll )

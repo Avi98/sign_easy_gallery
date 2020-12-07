@@ -17,6 +17,7 @@ const Section = styled.section`
     grid-template-rows: repeat(8, 5vw);
     grid-gap: 15px;
     > figure {
+      cursor: pointer;
       grid-column: span 4;
       grid-row: span 4;
       > img {
