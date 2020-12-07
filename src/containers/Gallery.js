@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getPhotos } from '../api/getPhotos';
 import { searchPhotos } from '../api/searchPhotos';
 import { Images, InputElement, LikeDislikeButtons } from '../components';
+import { useDebounce } from '../useDebounce';
 import { useAsync } from '../useFetch';
 
 
@@ -46,7 +47,7 @@ const isClickedInitialState = [
   },
 ];
 export const Gallery = () => {
-  // const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState('')
   // const [photosParam, setPhotosParam] = useState({
   //   count:null,
   //   start:null
@@ -62,6 +63,8 @@ export const Gallery = () => {
     status: searchStatus,
   } = useAsync(searchPhotos);
 
+  const debouncedSearchTerm = useDebounce(searchValue, 500);
+
   useEffect(() => {
     if (searchResults?.results) {
       return setImages(searchResults.results);
@@ -69,6 +72,12 @@ export const Gallery = () => {
 
     setImages(photos);
   }, [photos?.length, searchResults?.results.length]);
+
+  useEffect(() => {
+    if(debouncedSearchTerm){
+      searchImages(debouncedSearchTerm); 
+    }
+  }, [debouncedSearchTerm])
 
   const onClickDislike = ({ id, name }) => {
     if (like.find((obj) => obj.id === id)) return;
@@ -91,8 +100,10 @@ export const Gallery = () => {
   };
 
   const onChangeSearch = (e) => {
-    if (!e.target.value) return; 
-    searchImages(e.target.value);
+    // if (!e.target.value) return; 
+    // searchImages(e.target.value);
+
+    setSearchValue(e.target.value)
   };
 
   const ImagesComponent = () => (
