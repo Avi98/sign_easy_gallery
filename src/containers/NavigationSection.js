@@ -20,7 +20,7 @@ export const NavigationSection = () => {
   return (
     <NavSec>
       <div className='filter-field'>
-        <InputElement placeholder="All" disable={true}/>
+        <InputElement placeholder="All" disabled={true}/>
         <Divider />
         
         <FilterSection />
