@@ -31,11 +31,13 @@ const Section = styled.section`
   }
 `;
 
-const isClickedInitialState = {
-  id:'',
-  name:'',
-  isClicked:false
-}
+const isClickedInitialState = [
+  {
+    id: "",
+    name: "",
+    isClicked: false,
+  },
+];
 export const Gallery = () => {
   const [searchValue, setSearchValue] = useState('')
   const [photosParam, setPhotosParam] = useState({
@@ -55,26 +57,26 @@ export const Gallery = () => {
   },[searchValue])
 
   const onClickDislike = ({id, name})=>{
-    debugger
-    if(disLike.id !== id && !like.id){
-      setDisLike({id, name, isClicked:true})
-    }else if(like.id){
-      setLiked(isClickedInitialState)
+    if(like.find(obj=> obj.id === id)) return 
+    
+    if(!disLike.find((disLikeObj) => disLikeObj.id === id)){
+      setDisLike(state => [...state, {id, name, isClicked:true}])
     }
     else{
-      setDisLike(isClickedInitialState)
+      setDisLike(state=> state.filter((likeObj)=> likeObj.id !== id))
     }
-  } 
+  }
+  
   const onClickLike = ({id, name})=>{
-    if(like.id !== id ){
-      setLiked({id, name, isClicked:true})
-    }else if(disLike.id){
-      setDisLike(isClickedInitialState)
+    if(disLike.find(obj=> obj.id === id)) return 
+
+
+    if (!like.find((likeObj) => likeObj.id === id)) {
+      setLiked(state=> [...state, { id, name, isClicked: true }]);
+    } else {
+      setLiked((state) =>  state.filter((likeObj) => likeObj.id !== id));
     }
-    else{
-      setLiked(isClickedInitialState)
-    }
-  } 
+  }
   // useEffect(() => {
   //   execute()
   // }, [])
@@ -98,8 +100,8 @@ export const Gallery = () => {
                   alt={images.user.name}
                 />
                 <LikeDislikeButtons
-                  liked={like.id === images.id}
-                  disliked={disLike.id === images.id}
+                  liked={like.find(likeObj=> likeObj.id === images.id) ? true : false}
+                  disliked={disLike.find(disLikeObj=> disLikeObj.id === images.id) ? true : false}
                   onClickDislike={()=>onClickDislike({
                     id: images.id,
                     name: images.user.name,
