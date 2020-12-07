@@ -10,7 +10,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [x] Create Photo grid
 - [x] Add like button
 - [x]  Add zoom functionality
-- [ ]  Add search functionality
+- [x]  Add search functionality
 - [ ]  Implement infinite scroll
 ## Table of Contents
 

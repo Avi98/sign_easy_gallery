@@ -46,65 +46,81 @@ const isClickedInitialState = [
   },
 ];
 export const Gallery = () => {
-  const [searchValue, setSearchValue] = useState('')
-  const [photosParam, setPhotosParam] = useState({
-    count:null,
-    start:null
-  })
-  const [like, setLiked] = useState(isClickedInitialState)
-  const [disLike, setDisLike] = useState(isClickedInitialState)
+  // const [searchValue, setSearchValue] = useState('')
+  // const [photosParam, setPhotosParam] = useState({
+  //   count:null,
+  //   start:null
+  // })
+  const [like, setLiked] = useState(isClickedInitialState);
+  const [disLike, setDisLike] = useState(isClickedInitialState);
+  const [images, setImages] = useState([]);
 
-  const {execute: fetchPhotos, status:statusPhotos, value:photos, error: photoError} = useAsync(getPhotos)
-  const {execute: searchPhotos, status:statusSearch, value: searchResponse, error: photosError} = searchValue && useAsync(searchPhotos)
+  const { status: statusPhotos, value: photos } = useAsync(getPhotos);
+  const {
+    execute: searchImages,
+    value: searchResults,
+    status: searchStatus,
+  } = useAsync(searchPhotos);
 
-  useEffect(()=>{
-    if(searchValue){
-      execute("office");
+  useEffect(() => {
+    if (searchResults?.results) {
+      return setImages(searchResults.results);
     }
-  },[searchValue])
 
-  const onClickDislike = ({id, name})=>{
-    if(like.find(obj=> obj.id === id)) return 
-    
-    if(!disLike.find((disLikeObj) => disLikeObj.id === id)){
-      setDisLike(state => [...state, {id, name, isClicked:true}])
-    }
-    else{
-      setDisLike(state=> state.filter((likeObj)=> likeObj.id !== id))
-    }
-  }
-  
-  const onClickLike = ({id, name})=>{
-    if(disLike.find(obj=> obj.id === id)) return 
+    setImages(photos);
+  }, [photos?.length, searchResults?.results.length]);
 
+  const onClickDislike = ({ id, name }) => {
+    if (like.find((obj) => obj.id === id)) return;
+
+    if (!disLike.find((disLikeObj) => disLikeObj.id === id)) {
+      setDisLike((state) => [...state, { id, name, isClicked: true }]);
+    } else {
+      setDisLike((state) => state.filter((likeObj) => likeObj.id !== id));
+    }
+  };
+
+  const onClickLike = ({ id, name }) => {
+    if (disLike.find((obj) => obj.id === id)) return;
 
     if (!like.find((likeObj) => likeObj.id === id)) {
-      setLiked(state=> [...state, { id, name, isClicked: true }]);
+      setLiked((state) => [...state, { id, name, isClicked: true }]);
     } else {
-      setLiked((state) =>  state.filter((likeObj) => likeObj.id !== id));
+      setLiked((state) => state.filter((likeObj) => likeObj.id !== id));
     }
-  }
-  // useEffect(() => {
-  //   execute()
-  // }, [])
+  };
+
+  const onChangeSearch = (e) => {
+    if (!e.target.value) return; 
+    searchImages(e.target.value);
+  };
+
+  const ImagesComponent = () => (
+    <div className="gallery">
+      {statusPhotos === "success" &&
+        images.map((images, index) => (
+          <Images
+            key={images.id}
+            images={images}
+            index={index}
+            like={like}
+            disLike={disLike}
+            onClickLike={onClickLike}
+            onClickDislike={onClickDislike}
+          />
+        ))}
+    </div>
+  );
 
   return (
     <Section>
-      <InputElement placeholder="Search Images" />
-      <div className="gallery">
-        {statusPhotos === "success" &&
-          photos.map((images, index) => (
-            <Images
-              key={images.id}
-              images={images}
-              index={index}
-              like={like}
-              disLike={disLike}
-              onClickLike={onClickLike}
-              onClickDislike={onClickDislike}
-            />
-          ))}
-      </div>
+      <InputElement placeholder="Search Images" onChange={onChangeSearch} />
+
+      {[statusPhotos, searchStatus].includes("pending") ? (
+        <div>loading....</div>
+      ) : (
+        <ImagesComponent />
+      )}
     </Section>
   );
 };

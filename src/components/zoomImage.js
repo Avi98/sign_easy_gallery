@@ -45,7 +45,7 @@ export const ZoomImages = ({children}) =>{
         })
     }
 
-    const cloneChild = cloneElement(children, {handleZoomOut, ref: imageRef,  style:{height, width, ...style }})
+    const cloneChild = cloneElement(children, { ref: imageRef,  style:{height, width, ...style }})
 
 return Object.keys(style).length > 0 ? (
   <OverlayBg onClick={handleZoomOut}>
