@@ -11,7 +11,6 @@ Create a ```.env``` file and add ```REACT_APP_token``` unsplash token and ```REA
 
 ### Things covered in this project
 
-- [x] Create layout first
 - [x] hook api to fetch photos
 - [x] Create Photo grid
 - [x] Add like button
