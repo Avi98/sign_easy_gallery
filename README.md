@@ -7,18 +7,11 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 [X] (Create layout first)
 [X] (hook api to fetch photos)
-<<<<<<< HEAD
-[X] (Create Photo grid )
-[] (Add zoom functionality )
-[] (Add like button )
-[] (Implement infinite scroll )
-=======
 [X] (Create Photo grid)
 [X] (Add like button)
 [] (Add zoom functionality)
 [] (Add search functionality)
 [] (Implement infinite scroll)
->>>>>>> a46e0743ffad9b764bb5ac45cc367d108a0da128
 ## Table of Contents
 
 - [Updating to New Releases](#updating-to-new-releases)
