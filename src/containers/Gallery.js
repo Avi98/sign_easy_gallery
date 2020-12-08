@@ -5,6 +5,7 @@ import { searchPhotos } from '../api/searchPhotos';
 import { Images, InputElement, LikeDislikeButtons } from '../components';
 import { useDebounce } from '../useDebounce';
 import { useAsync } from '../useFetch';
+import useInfiniteScroll from '../useInfiniteScroll';
 
 
 const Section = styled.section`
@@ -48,10 +49,10 @@ const isClickedInitialState = [
 ];
 export const Gallery = () => {
   const [searchValue, setSearchValue] = useState('')
-  // const [photosParam, setPhotosParam] = useState({
-  //   count:null,
-  //   start:null
-  // })
+  const [photosParam, setPhotosParam] = useState({
+    count:30,
+    start:1
+  })
   const [like, setLiked] = useState(isClickedInitialState);
   const [disLike, setDisLike] = useState(isClickedInitialState);
   const [images, setImages] = useState([]);
@@ -64,6 +65,18 @@ export const Gallery = () => {
   } = useAsync(searchPhotos);
 
   const debouncedSearchTerm = useDebounce(searchValue, 500);
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreImages);
+
+  function fetchMoreImages() {
+    setPhotosParam({
+      start: photosParam.start + photosParam.count,
+      count: photosParam.count,
+    });
+    getPhotos(photosParam).then((res) => {
+      setImages(images.concat(res))
+      setIsFetching(false)
+    });
+  }
 
   useEffect(() => {
     if (searchResults?.results) {
@@ -107,7 +120,7 @@ export const Gallery = () => {
   };
 
   const ImagesComponent = () => (
-    <div className="gallery">
+    <div className="gallery" id='newsList'>
       {statusPhotos === "success" &&
         images.map((images, index) => (
           <Images
@@ -130,7 +143,10 @@ export const Gallery = () => {
       {[statusPhotos, searchStatus].includes("pending") ? (
         <div>loading....</div>
       ) : (
+        <>
         <ImagesComponent />
+        {isFetching && <div>Fetching more....</div>}
+        </>
       )}
     </Section>
   );
