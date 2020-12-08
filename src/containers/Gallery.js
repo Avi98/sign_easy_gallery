@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getPhotos } from '../api/getPhotos';
 import { searchPhotos } from '../api/searchPhotos';
-import { Images, InputElement, LikeDislikeButtons } from '../components';
+import { Images, InputElement } from '../components';
 import { useDebounce } from '../useDebounce';
+import { useLocalStorage } from '../useLocalStorage';
 import { useAsync } from '../useFetch';
 import useInfiniteScroll from '../useInfiniteScroll';
 
@@ -37,7 +38,7 @@ const Section = styled.section`
       }
       > img {
         width: 100%;
-        height: 100%;
+        height: 300px;
         object-fit: cover;
       }
     }
@@ -52,13 +53,16 @@ const isClickedInitialState = [
   },
 ];
 export const Gallery = () => {
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("");
   const [photosParam, setPhotosParam] = useState({
-    count:30,
-    start:1
-  })
-  const [like, setLiked] = useState(isClickedInitialState);
-  const [disLike, setDisLike] = useState(isClickedInitialState);
+    count: 30,
+    start: 1,
+  });
+  const [like, setLiked] = useLocalStorage("likeState", isClickedInitialState);
+  const [disLike, setDisLike] = useLocalStorage(
+    "disLikedState",
+    isClickedInitialState
+  );
   const [images, setImages] = useState([]);
 
   const { status: statusPhotos, value: photos } = useAsync(getPhotos);
@@ -77,8 +81,8 @@ export const Gallery = () => {
       count: photosParam.count,
     });
     getPhotos(photosParam).then((res) => {
-      setImages(images.concat(res))
-      setIsFetching(false)
+      setImages(images.concat(res));
+      setIsFetching(false);
     });
   }
 
@@ -91,13 +95,15 @@ export const Gallery = () => {
   }, [photos?.length, searchResults?.results.length]);
 
   useEffect(() => {
-    if(debouncedSearchTerm){
-      searchImages(debouncedSearchTerm); 
+    if (debouncedSearchTerm) {
+      searchImages(debouncedSearchTerm);
     }
-  }, [debouncedSearchTerm])
+  }, [debouncedSearchTerm]);
 
   const onClickDislike = ({ id, name }) => {
-    if (like.find((obj) => obj.id === id)) return;
+    if (like.find((obj) => obj.id === id)) {
+      setLiked((state) => state.filter((likeObj) => likeObj.id !== id))
+    };
 
     if (!disLike.find((disLikeObj) => disLikeObj.id === id)) {
       setDisLike((state) => [...state, { id, name, isClicked: true }]);
@@ -105,9 +111,11 @@ export const Gallery = () => {
       setDisLike((state) => state.filter((likeObj) => likeObj.id !== id));
     }
   };
-
+  
   const onClickLike = ({ id, name }) => {
-    if (disLike.find((obj) => obj.id === id)) return;
+    if (disLike.find((obj) => obj.id === id)) {
+      setDisLike((state) => state.filter((likeObj) => likeObj.id !== id));
+    };
 
     if (!like.find((likeObj) => likeObj.id === id)) {
       setLiked((state) => [...state, { id, name, isClicked: true }]);
@@ -117,14 +125,14 @@ export const Gallery = () => {
   };
 
   const onChangeSearch = (e) => {
-    // if (!e.target.value) return; 
+    // if (!e.target.value) return;
     // searchImages(e.target.value);
 
-    setSearchValue(e.target.value)
+    setSearchValue(e.target.value);
   };
 
   const ImagesComponent = () => (
-    <div className="gallery" id='newsList'>
+    <div className="gallery" id="newsList">
       {statusPhotos === "success" &&
         images.map((images, index) => (
           <Images
@@ -148,8 +156,8 @@ export const Gallery = () => {
         <div>loading....</div>
       ) : (
         <>
-        <ImagesComponent />
-        {isFetching && <div>Fetching more....</div>}
+          <ImagesComponent />
+          {isFetching && <div>Fetching more....</div>}
         </>
       )}
     </Section>
