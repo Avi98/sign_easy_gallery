@@ -7,7 +7,10 @@ You can find the most recent version of this guide [here](https://github.com/fac
 You need to clone this project and then run ```yarn``` to install all the dependencies. In order to run the project run command ```yarn run```. You also need to add environment variables in your project.<br> 
 
 Create a ```.env``` file and add ```REACT_APP_token``` unsplash token and ```REACT_APP_base_url=https://api.unsplash.com```
- 
+
+## Demo link
+
+You can see live demo by clicking [here](https://signeasygallery.netlify.app) 
 
 ### Things covered in this project
 
