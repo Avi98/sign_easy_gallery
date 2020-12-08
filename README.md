@@ -16,5 +16,6 @@ Create a ```.env``` file and add ```REACT_APP_token``` unsplash token and ```REA
 - [x] Add like button
 - [x]  Add zoom functionality
 - [x]  Add search functionality
-- [ ]  Implement infinite scroll
+- [x]  Implement infinite scroll
+- [ ]  responsive 
 
