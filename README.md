@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+This projects is using [React-hooks](https://reactjs.org/docs/hooks-intro.html)
+
 **Please refresh screen when you change the screen resolution.**
 
 Below you will find some information on how to perform common tasks.<br>
@@ -24,3 +26,7 @@ You can see live demo by clicking [here](https://signeasygallery.netlify.app)
 - [x]  Implement infinite scroll
 - [x]  responsive 
 
+
+### Libs used
+
+styled-components: For styling css
