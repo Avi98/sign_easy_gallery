@@ -19,9 +19,13 @@ const Section = styled.section`
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 5vw);
     grid-gap: 15px;
+    @media only screen and (max-width: 600px){
+      grid-template-columns: auto;
+      grid-template-rows: auto;
+    }
+
     > figure {
       position:relative;
-      cursor: pointer;
       grid-column: span 4;
       grid-row: span 4;
       #zoom-in{
@@ -124,7 +128,7 @@ export const Gallery = () => {
       {statusPhotos === "success" &&
         images.map((images, index) => (
           <Images
-            key={images.id}
+            key={`${images.id}-${index}`}
             images={images}
             index={index}
             like={like}

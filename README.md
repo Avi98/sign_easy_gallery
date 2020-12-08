@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+**Please refresh screen when you change the screen resolution.**
+
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
@@ -20,5 +22,5 @@ You can see live demo by clicking [here](https://signeasygallery.netlify.app)
 - [x]  Add zoom functionality
 - [x]  Add search functionality
 - [x]  Implement infinite scroll
-- [ ]  responsive 
+- [x]  responsive 
 

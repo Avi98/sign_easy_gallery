@@ -16,6 +16,8 @@ export const Images = ({images, like, disLike, onClickLike, onClickDislike, inde
               key={images.id}
               src={images.urls.thumb}
               alt={images.user.name}
+              height='100px'
+              width='100px'
             />
           </ZoomImages>
           <LikeDislikeButtons
